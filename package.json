@@ -1,0 +1,19 @@
+{
+  "name": "create-factory-app-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --clear --rs -- src/index.ts",
+    "build": "tsc"
+  },
+  "bin": {
+    "create-factory-app": "./build/index.js"
+  },
+  "dependencies": {
+    "@types/node": "^16.9.1",
+    "cross-env": "^7.0.3",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  }
+}
