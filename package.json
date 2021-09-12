@@ -1,19 +1,29 @@
 {
   "name": "create-factory-app-test",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.10",
+  "main": "build/src/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --clear --rs -- src/index.ts",
     "build": "tsc"
   },
   "bin": {
-    "create-factory-app": "./build/index.js"
+    "create-factory-app-test": "./build/src/index.js"
   },
   "dependencies": {
+    "@leadcodedev/logger": "^1.0.0",
+    "@types/js-yaml": "^4.0.3",
     "@types/node": "^16.9.1",
+    "commander": "^8.2.0",
     "cross-env": "^7.0.3",
+    "cross-spawn": "^7.0.3",
+    "enquirer": "^2.3.6",
+    "fs": "^0.0.1-security",
+    "js-yaml": "^4.1.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.2"
   }
 }
