@@ -1,10 +1,11 @@
-import { program, createCommand, Option } from 'commander'
+import { program } from 'commander'
 import Logger from '@leadcodedev/logger'
 import { isUsingYarn, clearLastedLine, motd, createEnvironment } from '../utils/index'
 import { spawn } from 'cross-spawn'
 import fs from 'fs'
 import YAML from 'js-yaml'
 import path from 'path'
+import cliSpinners from 'cli-spinners'
 
 export default class CreateProject {
   public async run () {
@@ -59,14 +60,24 @@ export default class CreateProject {
 
   protected async createJson (params: { projectName: string, token: string }) {
     await fs.promises.writeFile(
-      path.join(process.cwd(), params.projectName, 'environment.json'),
+      path.join(process.cwd(), params.projectName, 'environment.dev.json'),
+      JSON.stringify(createEnvironment(params), null, ' ')
+    )
+
+    await fs.promises.writeFile(
+      path.join(process.cwd(), params.projectName, 'environment.prod.json'),
       JSON.stringify(createEnvironment(params), null, ' ')
     )
   }
 
   protected async createYaml (params: { projectName: string, token: string }) {
     await fs.promises.writeFile(
-      path.join(process.cwd(), params.projectName, 'environment.yaml'),
+      path.join(process.cwd(), params.projectName, 'environment.dev.yaml'),
+      YAML.dump(createEnvironment(params))
+    )
+
+    await fs.promises.writeFile(
+      path.join(process.cwd(), params.projectName, 'environment.prod.yaml'),
       YAML.dump(createEnvironment(params))
     )
   }
@@ -77,14 +88,14 @@ export default class CreateProject {
 
     let interval: NodeJS.Timer
     let count = 0
-
+    const { interval: recommendedInterval, frames } = cliSpinners.line
     child
       .on('spawn', () => {
         interval = setInterval(() => {
           count > 0 && clearLastedLine()
-          Logger.send('info', `Installation of outbuildings${'.'.repeat(count)}`)
-          count++
-        }, 1000)
+          Logger.send('info', `Installation of outbuildings ${frames[count]}`)
+          count === 3 ? count = 0 : count++
+        }, recommendedInterval)
       })
       .on('close', (code) => {
         if (!code) {
