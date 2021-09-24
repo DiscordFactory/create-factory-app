@@ -1,6 +1,6 @@
 import { program } from 'commander'
 import Logger from '@leadcodedev/logger'
-import { isUsingYarn, clearLastedLine, motd, createEnvironment } from '../utils/index'
+import { isUsingYarn, clearLastedLine, motd, createEnvironment } from '../utils'
 import { spawn } from 'cross-spawn'
 import fs from 'fs'
 import YAML from 'js-yaml'
@@ -87,14 +87,14 @@ export default class CreateProject {
     const startCommand = useYarn ? 'yarn dev' : 'npm run dev'
 
     let interval: NodeJS.Timer
-    let count = 0
+    let count = -1
     const { interval: recommendedInterval, frames } = cliSpinners.line
     child
       .on('spawn', () => {
         interval = setInterval(() => {
-          count > 0 && clearLastedLine()
-          Logger.send('info', `Installation of outbuildings ${frames[count]}`)
+          count >= 0 && clearLastedLine()
           count === 3 ? count = 0 : count++
+          Logger.send('info', `Installation of outbuildings ${frames[count]}`)
         }, recommendedInterval)
       })
       .on('close', (code) => {

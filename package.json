@@ -1,6 +1,6 @@
 {
-  "name": "create-factory-app-test",
-  "version": "1.1.0",
+  "name": "create-factory-app",
+  "version": "1.1.1",
   "main": "build/src/index.js",
   "license": "MIT",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "tsc"
   },
   "bin": {
-    "create-factory-app-test": "./build/src/index.js"
+    "create-factory-app": "./build/src/index.js"
   },
   "dependencies": {
     "@leadcodedev/logger": "^1.0.0",
